@@ -1,13 +1,13 @@
 import express from 'express';
+import routersUser from './src/routes/user.routes';
 
 const app = express()
 
 const PORT = 3000
 
 app.use(express.json())
-app.get('/', (_, res)=>{
-    res.send('Hello World')
-})
+
+app.use(routersUser)
 
 app.listen(PORT, ()=>{
     console.log(`Server is running on port ${PORT}`)

@@ -1,6 +1,6 @@
 import sqlite3  from "sqlite3";
 
-export const db = new sqlite3.Database('library_db', (err: Error | null)=>{
+export const db = new sqlite3.Database('library_db.sqlite', (err: Error | null)=>{
     if(err){
         console.error(`Erro ao conectar no banco de dados: ${err.message}`)
     }else{
