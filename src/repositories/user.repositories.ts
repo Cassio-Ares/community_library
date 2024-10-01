@@ -28,6 +28,7 @@ export interface User{
 
 //função para criar um novo usuario
 // Omit<User, 'id'> para indicar que o id não é necessário na criação
+
 function createUserRepository(newUser:Omit<User, 'id'>):Promise<User>{
     // Desestruturando os dados do novo usuário
     const {username, email, password, avatar} = newUser
@@ -49,8 +50,30 @@ function createUserRepository(newUser:Omit<User, 'id'>):Promise<User>{
            }
         })
     })
+};
+
+type UserRow = User | undefined;
+
+function findUserByEmailRepository(email:string):Promise<User | null>{
+   return new Promise((res, rej)=>{
+    db.get(`
+        SELECT
+         id, username, email, avatar
+         FROM users
+         WHERE email = ?
+     `, [email], (err, row:UserRow)=>{
+        if(err){
+            rej(err)
+        }else{
+            res(row || null)
+        }
+     })
+   })
 }
 
 export default{
-    createUserRepository
+    createUserRepository,
+    findUserByEmailRepository
 }
+
+//https://learning.dnc.group/course/desenvolvedor-full-stack/player/145714/content/393327
