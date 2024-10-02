@@ -132,7 +132,6 @@ function findAllUserRepository():Promise<User | []>{
 // }
 
 
-
 // montando a query sql de forma dinamica 
 function  updateUserRepository(id:number, user:Partial<User>):Promise<User>{
    return new Promise((res, rej)=>{
