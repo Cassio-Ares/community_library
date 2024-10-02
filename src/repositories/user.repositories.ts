@@ -71,9 +71,127 @@ function findUserByEmailRepository(email:string):Promise<User | null>{
    })
 }
 
-export default{
-    createUserRepository,
-    findUserByEmailRepository
+
+function findUserByIdRepository(id:number):Promise<User | null>{
+    return new Promise((res, rej)=>{
+        db.get(`
+          SELECT
+            id, username, email, avatar
+          FROM users
+          WHERE id = ?
+        `, [id], (error, row:UserRow)=>{
+            if(error){
+                rej(error)
+            }else{
+                res(row || null)
+            }
+        })
+    })
 }
 
-//https://learning.dnc.group/course/desenvolvedor-full-stack/player/145714/content/393327
+function findAllUserRepository():Promise<User | []>{
+    return new Promise((res, rej)=>{
+        db.all(`
+            SELECT
+              id, username, email, avatar
+            FROM users
+        `,[], (error:any, rows:UserRow)=>{
+            if(error){
+                rej(error)
+            }else{
+                res(rows || [])
+            }
+        })
+    })
+}
+
+
+// função para usar em put 
+
+// function updateUserRepository(id:number, user:Partial<User>):Promise<User>{
+//     const {username, email, password, avatar} = user 
+//   return new Promise((res, rej)=>{
+//     db.run(`
+//         UPDATE users
+//         SET username = ?, email = ?, password = ?, avatar = ?  
+//         WHERE id = ?
+//         `,[username, email, password, avatar, id], (err)=>{
+//             if(err){
+//                 rej(err)
+//             }else{
+//                 res({
+//                     id,
+//                     username: username || '',
+//                     email: email || '',
+//                     password: password || '',
+//                     avatar: avatar || ''
+//                 })
+//             }
+//         })
+//   })
+// }
+
+
+
+// montando a query sql de forma dinamica 
+function  updateUserRepository(id:number, user:Partial<User>):Promise<User>{
+   return new Promise((res, rej)=>{
+    const fields:Array<keyof User>= ['username', 'email', 'password', 'avatar']
+    const values = []
+
+    let query = "UPDATE users SET"
+
+    fields.forEach((field, index)=>{
+        if(user[field] !== undefined){
+          query += ` ${field} = ? ,`
+          values.push(user[field])
+        }
+    })
+
+
+    query = query.slice(0, -1)// Remove a última vírgula
+    
+    query += " WHERE id = ?"
+
+    values.push(Number(id))
+
+    // para poder visializar a query e os valores
+    // console.log(query) 
+    // console.log(values)
+    
+    db.run(query, values, (err)=>{
+        if(err){
+            rej(err)
+        } else {
+            res({
+                ...user,
+                id: id 
+            } as User);
+        }
+    })
+   })
+}
+
+function deleteUserRepository(id:number):Promise<{message:string, id:number}>{
+    return new Promise((res, rej)=>{
+        db.run(`
+         DELETE FROM users
+         WHERE id = ?
+        `, [id], (err)=>{
+            if(err){
+                rej(err)
+            }else{
+                res({message: "User deleted successfully", id})
+            }
+        })
+    })
+}
+
+export default{
+    createUserRepository,
+    findUserByEmailRepository,
+    findUserByIdRepository,
+    findAllUserRepository,
+    updateUserRepository,
+    deleteUserRepository
+}
