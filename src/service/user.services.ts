@@ -1,10 +1,11 @@
 import userRepositories, { User } from "../repositories/user.repositories";
 import bcrypt from 'bcrypt'
+import { generationJWT } from "./auth.services";
 
 //responsavel pelo logica 
                                        
 
-async function createUserService(newUser:User):Promise<User>{
+async function createUserService(newUser:User):Promise<string>{
     const foundUser = await userRepositories.findUserByEmailRepository(newUser.email)
     if(foundUser) throw new Error("User already exists")
 
@@ -14,7 +15,8 @@ async function createUserService(newUser:User):Promise<User>{
 
     const user = await userRepositories.createUserRepository({...newUser, password:passCrypt})
     if(!user) throw new Error("Error creating User")
-    return user;
+    const token = generationJWT(user.id)
+    return token;
 }
 
 async function findAllUserService():Promise<User | []> {

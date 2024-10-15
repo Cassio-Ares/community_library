@@ -10,6 +10,7 @@ import { userSchema } from "../schema/user.schema";
 const routerUsers = Router()
 
 routerUsers.post('/users',validate(userSchema), userController.createUserController)
+routerUsers.post('/users/login', userController.loginController)
 routerUsers.get('/users', userController.findAllUserController)
 routerUsers.get('/users/:id',validateUserId, userController.findUserByIdController)
 // routerUsers.put('/users/:id',validateUserId,validate(userSchema), userController.updataUserController)
