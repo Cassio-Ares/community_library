@@ -17,7 +17,7 @@ db.run(`
     userId: number
  }
 
- type BookRow = Books | undefined
+ type BookRow = Books | undefined 
 
  function createBookRepository(newBook: Omit<Books, 'id' | 'userId'>, userId: number): Promise<Books> {
     return new Promise((res, rej) => {
@@ -40,15 +40,15 @@ db.run(`
     });
 }
 
-function findAllBooksRepository():Promise<Books | []>{
+function findAllBooksRepository():Promise<Books[]>{
     return new Promise((res, rej)=>{
         db.all(`
             SELECT * FROM books
-         `, [], (err:any, rows:BookRow)=>{
+         `, [], (err:any, rows:Books[])=>{
             if(err){
                 rej(err)
             }else{
-                res(rows || [])
+                res(rows)
             }
          })
     })
@@ -122,11 +122,40 @@ function deleteBookRepository(bookId:number):Promise<{message:string, bookId:num
     })
   })
 }
+
+/**
+ * query sql:
+ * SELECIONE *(tudo)
+ * DE ONDE book
+ * ONDE title TENHA VALORES SIMILARES A ? OU author TENHA VALORES SIMILARES A ?
+ * 
+ * [% É UM ELEMENTO CURINGA QUE SIG "QUALQUER SEQUÊNCIA DE CARACTER %" ]
+ * @param search busca desde uma letra até palavaras ou frases inteiras
+ * @returns lista de books 
+ */
+function searchBooksRepository(search:string):Promise<Books[]>{
+  return new Promise((res, rej)=>{
+    db.all(`
+         SELECT *
+         FROM books
+         WHERE title LIKE ? OR author LIKE ?
+    `, [`%${search}%`, `%${search}%`], (err:any, rows:Books[])=>{
+        if(err){
+            rej(err)
+        }else{ 
+            res(rows)
+        }
+    })
+  })
+}
+
+
  export default {
     createBookRepository,
     findAllBooksRepository,
     findBooksByIdRepository, 
     updateBookRepository,
-    deleteBookRepository
+    deleteBookRepository,
+    searchBooksRepository
  }
 

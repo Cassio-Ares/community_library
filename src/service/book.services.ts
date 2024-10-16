@@ -13,7 +13,7 @@ async function createBookService(newBook:Books, userId:number):Promise<Books> {
    return createBook
 }
 
-async function findAllBooksService():Promise<Books | []> {
+async function findAllBooksService():Promise<Books[]> {
     const books = await bookRepositories.findAllBooksRepository();
     return books
 }
@@ -50,10 +50,23 @@ async function deleteBookService(bookId:number, userId:number) {
     return response
 }
 
+async function searchBooksService(search:string):Promise<Books[]> {
+    //se o usuario não colocar nada no "search" ele recebe a lista completa de livros
+    if(!search) return await bookRepositories.findAllBooksRepository() 
+
+    const books = await bookRepositories.searchBooksRepository(search)
+    return books
+}
+
+
+
+
+
 export default{
     createBookService,
     findAllBooksService,
     findBookByIdService,
     updateBookService,
-    deleteBookService
+    deleteBookService,
+    searchBooksService
 }

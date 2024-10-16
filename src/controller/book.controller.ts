@@ -76,10 +76,25 @@ async function deleteBookController(req:Request, res:Response):Promise<void> {
     }
 }
 
+async function searchBookController(req:Request, res:Response):Promise<void> {
+    try {
+         // Pega o parâmetro 'search' da query e converte para string, caso esteja presente
+        const search = req.query.search?.toString() || "";
+
+        const book = await bookServices.searchBooksService(search)
+
+        res.status(200).send(book)
+    } catch (error:any) {
+         res.status(400).send(error.message)
+    }
+}
+
+
 export default{
     createBookController,
     finAllBooksController,
     findBookByIdController, 
     updateBookController,
-    deleteBookController
+    deleteBookController,
+    searchBookController
 }
