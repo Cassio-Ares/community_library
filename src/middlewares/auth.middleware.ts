@@ -45,7 +45,7 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction):
         }
     
         // Armazena o userId no objeto de resposta
-        res.userId = user.id;
+        req.userId = user.id;
     
         next(); 
       });
