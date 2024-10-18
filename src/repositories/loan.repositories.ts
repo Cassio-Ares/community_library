@@ -64,8 +64,6 @@ function createLoanRepository(userId:number, bookId:number, dueDate:Date):Promis
  * explicação do join:
  *      JOIN user ON loans.userId = users.id 
  *      Junte a tabela users com a tabela loans onde o campo userId da tabela loans for igual ao campo id da tabela users.
- * 
- * 
  *  [
  *    {
  *      "id": 2,
