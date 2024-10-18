@@ -18,6 +18,13 @@ export interface Loans{
     dueDate: Date
 }
 
+export interface AllLoans{ 
+    id:number, 
+    usersEmail:string,
+    bookTitle:string,
+    dueDate: Date
+}
+
 
 function createLoanRepository(userId:number, bookId:number, dueDate:Date):Promise<Loans>{
   return new Promise((res, rej)=>{
@@ -74,14 +81,14 @@ function createLoanRepository(userId:number, bookId:number, dueDate:Date):Promis
  *  ]
  */
 
-function findAllLoansRepository():Promise<Loans[] | []>{
+function findAllLoansRepository():Promise<AllLoans[] | []>{
     return new Promise((res, rej)=>{
          db.all(`
          SELECT loans.id, loans.dueDate, users.email, books.title
          FROM loans
          JOIN users ON loans.userId = users.id   
          JOIN books ON loans.bookId = books.id
-        `, [], (error:any, rows: Loans[])=>{
+        `, [], (error:any, rows: AllLoans[])=>{
             if(error){
                 rej(error)
             }else{
@@ -132,5 +139,3 @@ export default{
     deleteLoanRepository
 }
 
-//https://learning.dnc.group/course/desenvolvedor-full-stack/player/145715/content/393342 555
-//https://github.com/EscolaDnc/community_library_base/blob/main/src/repositories/loan.repository.js

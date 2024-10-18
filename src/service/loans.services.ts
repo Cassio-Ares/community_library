@@ -1,4 +1,4 @@
-import loanRepositories, { Loans } from "../repositories/loan.repositories";
+import loanRepositories, { AllLoans, Loans } from "../repositories/loan.repositories";
 
 async function createLoanService(userid:number, bookId:number, dueDate:Date):Promise<Loans> {
      const createLoans = await loanRepositories.createLoanRepository(userid, bookId, dueDate)
@@ -6,7 +6,7 @@ async function createLoanService(userid:number, bookId:number, dueDate:Date):Pro
     return createLoans
 }
 
-async function findAllLoansService():Promise<Loans[] | []> {
+async function findAllLoansService():Promise<AllLoans[] | []> {
     const loans = await loanRepositories.findAllLoansRepository()
     return loans
 }
