@@ -2,7 +2,7 @@ import { Router } from "express";
 import bookController from "../controller/book.controller";
 import { authMiddleware } from "../middlewares/auth.middleware";
 import { validate, validateBookId } from "../middlewares/validation.middleware";
-import { bookIdSchema, bookSchema } from "../schema/book.schema";
+import { bookSchema } from "../schema/book.schema";
 
 
 

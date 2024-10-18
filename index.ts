@@ -2,6 +2,7 @@ import express from 'express';
 import routersUser from './src/routes/user.routes';
 import dotenv from 'dotenv'
 import routersBooks from './src/routes/book.routes';
+import routersLoans from './src/routes/loans.routes';
 
 const app = express()
 dotenv.config()
@@ -13,6 +14,7 @@ app.use(express.json())
 
 app.use(routersUser)
 app.use(routersBooks)
+app.use(routersLoans)
 
 app.listen(PORT, ()=>{
     console.log(`Server is running on port ${PORT}`)
