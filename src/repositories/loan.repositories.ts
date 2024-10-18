@@ -93,5 +93,3 @@ export default{
     deleteLoanRepository
 }
 
-//https://learning.dnc.group/course/desenvolvedor-full-stack/player/145715/content/393342 555
-//https://github.com/EscolaDnc/community_library_base/blob/main/src/repositories/loan.repository.js
