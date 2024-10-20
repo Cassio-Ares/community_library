@@ -3,7 +3,7 @@ import routersUser from './src/routes/user.routes';
 import dotenv from 'dotenv'
 import routersBooks from './src/routes/book.routes';
 import routersLoans from './src/routes/loans.routes';
-
+import  './src/service/cron-service'
 const app = express()
 dotenv.config()
 
@@ -36,4 +36,3 @@ app.listen(PORT, ()=>{
  * 
  * npx tsc --init
  */
-
