@@ -37,9 +37,3 @@ const sendReminderEmail = (email:string, bookTitle:string, dueDate:Date) =>{
 export default sendReminderEmail;
 
 
-/**
- * install: 
- * npm install nodemailer
- * npm i --save-dev @types/nodemailer
- * 
- */

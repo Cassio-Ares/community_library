@@ -154,9 +154,6 @@ function  updateUserRepository(id:number, user:Partial<User>):Promise<User>{
 
     values.push(Number(id))
 
-    // para poder visializar a query e os valores
-    // console.log(query) 
-    // console.log(values)
     
     db.run(query, values, (err)=>{
         if(err){
